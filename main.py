@@ -4,7 +4,7 @@ from router.user_router import router as user_router
 from router.student import router as student_router
 from router.program import router as program_router
 from router.subject import router as subject_router
-from router.login import router as login_router
+from router.autentication import router as autentication_router
 
 
 import uvicorn
@@ -17,6 +17,6 @@ app.include_router(user_router)
 app.include_router(student_router)
 app.include_router(program_router)
 app.include_router(subject_router)
-app.include_router(login_router)
+app.include_router(autentication_router)
 
 

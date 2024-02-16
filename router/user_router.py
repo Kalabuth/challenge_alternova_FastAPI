@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi import Header
-from datetime import datetime
 from utils.autentication import hash_password, handle_authorization
 from schema.schema import User
 from database.db import get_db
@@ -56,24 +55,6 @@ def get_user(id:int, db:Session = Depends(get_db)):
     else:
         return user
     
-
-@router.post('/', response_model=user_schema)
-def post_user(entrada:user_schema, token: str = Depends(get_token), db:Session = Depends(get_db)):
-    admin_permission = permission_admin(token, db)
-    if not admin_permission:
-        raise HTTPException(status_code=401, detail="No tienes permiso de administrador")
-    
-    password = hash_password(entrada.password)
-    user = db.query(User).filter_by(email=entrada.email).first()
-    if user:
-        raise HTTPException(status_code=409, detail="Existe un usuario con el correo ingresado")
-    
-    user = User(email=entrada.email, password=password, admin=entrada.admin, date_joined=datetime.now())
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
-
 
 @router.put('/{id}/', response_model=user_schema)
 def put_user(id:int, entrada:user_update_schema, token: str = Depends(get_token), db:Session = Depends(get_db)):
