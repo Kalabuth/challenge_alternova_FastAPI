@@ -8,7 +8,7 @@ class User(BaseModel):
     email:str = Field(default="email@email.com", min_length=8, max_length=50)
     password:str = Field( min_length=4, max_length=150)
     admin:Optional[bool]
-    date_joined:datetime
+    date_joined:Optional[datetime]
     
     class config:
         orm_mode = True
@@ -44,7 +44,7 @@ class Studend(BaseModel):
     id:Optional[int] = None
     email:str = Field(default="email@email.com", min_length=8, max_length=50)
     password:str = Field( min_length=4, max_length=150)
-    date_joined:datetime
+    date_joined:Optional[datetime]
     program:int
     birth_date:Optional[date] = None
     document_number:str = Field( min_length=4, max_length=50)
